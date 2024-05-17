@@ -28,14 +28,14 @@ export async function createProduct(options: {
     name: string;
     description?: string;
     price: number;
-    priceAfterDiscount?: number;
-    purchasePrice?: number;
+    purchaseDate?: Date;
     warrantyPeriod: number;
+    warrantyExpiredDate?: Date;
     type?: string;
     status?: string;
 }) {
     try {
-        const {name, description, price, priceAfterDiscount, purchasePrice, warrantyPeriod, type, status} = options;
+        const {name, description, price, purchaseDate, warrantyPeriod, warrantyExpiredDate, type, status} = options;
 
         // generate barcode using uuid
         const barcode = crypto.randomUUID();
@@ -47,8 +47,8 @@ export async function createProduct(options: {
                 name,
                 description,
                 price,
-                priceAfterDiscount,
-                purchasePrice,
+                purchaseDate,
+                warrantyExpiredDate,
                 warrantyPeriod,
                 type,
                 status
@@ -89,17 +89,17 @@ export async function getProductByBarcode(barcode: string) {
  * Updating a product
  */
 export async function updateProduct(barcode: string, options: {
-    name?: string;
+    name: string;
     description?: string;
-    price?: number;
-    priceAfterDiscount?: number;
-    purchasePrice?: number;
-    warrantyPeriod?: number;
+    price: number;
+    purchaseDate?: Date;
+    warrantyPeriod: number;
+    warrantyExpiredDate?: Date;
     type?: string;
     status?: string;
 }) {
     try {
-        const {name, description, price, priceAfterDiscount, purchasePrice, warrantyPeriod, type, status} = options;
+        const {name, description, price, purchaseDate, warrantyExpiredDate, warrantyPeriod, type, status} = options;
 
         // update product
         const product = await prisma.product.update({
@@ -110,8 +110,8 @@ export async function updateProduct(barcode: string, options: {
                 ...(name ? {name} : {}),
                 ...(description ? {description} : {}),
                 ...(price ? {price} : {}),
-                ...(priceAfterDiscount ? {priceAfterDiscount} : {}),
-                ...(purchasePrice ? {purchasePrice} : {}),
+                ...(purchaseDate ? {purchaseDate} : {}),
+                ...(warrantyExpiredDate ? {warrantyExpiredDate} : {}),
                 ...(warrantyPeriod ? {warrantyPeriod} : {}),
                 ...(type ? {type} : {}),
                 ...(status ? {status} : {}),

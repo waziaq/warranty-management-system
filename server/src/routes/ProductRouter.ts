@@ -8,7 +8,7 @@ import {
     updateProduct
 } from "../controllers/ProductController";
 
-const Routes = new Elysia({prefix: '/products'})
+const ProductRouter = new Elysia({prefix: '/products'})
     .get('/', () => getProducts())
     .post('/', ({body}) => createProduct(body as {
         name: string;
@@ -52,5 +52,5 @@ const Routes = new Elysia({prefix: '/products'})
         })
     });
 
-export default Routes;
+export default ProductRouter;
 

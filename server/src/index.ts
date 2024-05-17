@@ -2,7 +2,8 @@
 import { Elysia } from "elysia";
 
 // import routes
-import Routes from "./routes";
+import ProductRouter from "./routes/ProductRouter";
+import CustomerRouter from "./routes/CustomerRouter";
 
 // initiate elysia
 const app = new Elysia();
@@ -16,7 +17,8 @@ app.get("/", () => {
 });
 
 // add routes
-app.group('/api', (app) => app.use(Routes));
+app.use(ProductRouter);
+app.use(CustomerRouter);
 
 // start server
 app.listen(3000);
