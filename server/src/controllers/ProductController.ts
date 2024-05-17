@@ -84,3 +84,66 @@ export async function getProductByBarcode(barcode: string) {
         console.log(`Error while fetching product: ${error}`);
     }
 }
+
+/*
+ * Updating a product
+ */
+export async function updateProduct(barcode: string, options: {
+    name?: string;
+    description?: string;
+    price?: number;
+    priceAfterDiscount?: number;
+    purchasePrice?: number;
+    warrantyPeriod?: number;
+    type?: string;
+    status?: string;
+}) {
+    try {
+        const {name, description, price, priceAfterDiscount, purchasePrice, warrantyPeriod, type, status} = options;
+
+        // update product
+        const product = await prisma.product.update({
+            where: {
+                barcode
+            },
+            data: {
+                ...(name ? {name} : {}),
+                ...(description ? {description} : {}),
+                ...(price ? {price} : {}),
+                ...(priceAfterDiscount ? {priceAfterDiscount} : {}),
+                ...(purchasePrice ? {purchasePrice} : {}),
+                ...(warrantyPeriod ? {warrantyPeriod} : {}),
+                ...(type ? {type} : {}),
+                ...(status ? {status} : {}),
+            }
+        });
+
+        return {
+            success: true,
+            message: `Product for barcode ${barcode} updated successfully`,
+            data: product
+        }
+    } catch (error: unknown) {
+        console.log(`Error while updating product: ${error}`);
+    }
+}
+
+/*
+ * Deleting a product
+ */
+export async function deleteProduct(barcode: string) {
+    try {
+        const product = await prisma.product.delete({
+            where: {
+                barcode
+            }
+        });
+        return {
+            success: true,
+            message: `Product for barcode ${barcode} deleted successfully`,
+            data: product
+        }
+    } catch (error: unknown) {
+        console.log(`Error while deleting product: ${error}`);
+    }
+}
