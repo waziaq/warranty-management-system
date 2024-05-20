@@ -30,6 +30,8 @@ model Product {
   customerId Int?
   customer   Customer? @relation(fields: [customerId], references: [id])
 
+  claims Claim[]
+
   @@map("products")
 }
 
@@ -44,5 +46,22 @@ model Customer {
 
   products Product[]
 
+  claims Claim[]
+
   @@map("customers")
+}
+
+model Claim {
+  id        Int      @id @unique @default(autoincrement())
+  claimDate DateTime @default(now())
+  status    String   @default("pending")
+  description String?
+
+  productBarcode String @unique
+  product   Product? @relation(fields: [productBarcode], references: [barcode])
+
+  customerId Int
+  customer   Customer? @relation(fields: [customerId], references: [id])
+
+  @@map("claims")
 }
